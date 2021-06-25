@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="jp">
+<head>
+  <meta charset="UTF-8">
+  <title>My Vue App</title>
+  <link rel="stylesheet" href="css/stylesheet.css">
+</head>
+<body>
+
+<div id="app" class="container">
+  <h1>
+    <!-- 完了したTodoを削除 -->
+    <button @click="purge">Purge</button>
+    My Todos
+    <!-- 残りのタスク数/合計タスク数を表示させる(info) -->
+    <span class="info">({{ remaining.length }}/{{ todos.length}})</span>
+  </h1>
+
+  <!-- todosがあるとき -->
+  <ul v-if="todos.length">
+    <!-- 配列をループさせて表示させる処理 -->
+    <li v-for="(todo, index) in todos">
+      <!-- チェックボックスを作成、v-model='todo.isDoneでisDoneがtrueのときにはチェックが入る -->
+      <input type="checkbox" v-model='todo.isDone'>
+      <!-- todoのtitleを表示する -->  
+      <!-- todoのisDoneがtrueの場合、doneクラスを付けてくれる -->
+      <span :class="{done: todo.isDone}">{{ todo.title }}</span>
+      <!-- x印を押すとdeleteItemメソッド実行 -->
+      <span @click="deleteItem(index)" class="command">[x]</span> 
+    </li>    
+  </ul>
+  <!-- todosに何もないときNothing to do,yay!と表示 -->
+  <li v-show="!todos.length">Nothing to do,yay!</li>
+  </ul>
+  
+  <!-- <form v-on:submit="addItem"> -->
+  <!-- @submit.preventとすると既定のページが遷移することを無効化できる -->
+  <form @submit.prevent="addItem">
+    <!-- 入力欄作成 アイテムを追加するとaddItemメソッド実行-->
+    <input type="text" v-model="newItem">
+    <!-- ADDボタン作成 -->
+    <!-- submitした後のメソッドを指定する -->
+    <input type="submit" value="Add" >
+  </form>
+</div>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
